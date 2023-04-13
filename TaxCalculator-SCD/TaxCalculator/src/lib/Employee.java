@@ -26,8 +26,7 @@ public class Employee {
   private String spouseName;
   private String spouseIdNumber;
 
-  private List < String > childNames;
-  private List < String > childIdNumbers;
+  private List < Child > children;
 
   public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, LocalDate dateJoined, Nationality nationality, Gender gender) {
     this.employeeId = employeeId;
@@ -39,8 +38,7 @@ public class Employee {
     this.nationality = nationality;
     this.gender = gender;
 
-    childNames = new LinkedList < String > ();
-    childIdNumbers = new LinkedList < String > ();
+    children = new LinkedList < Child > ();
   }
 
   /**
@@ -81,8 +79,8 @@ public class Employee {
   }
 
   public void addChild(String childName, String childIdNumber) {
-    childNames.add(childName);
-    childIdNumbers.add(childIdNumber);
+    Child child = new Child(childName, childIdNumber);
+    children.add(child);
   }
 
   public int getAnnualIncomeTax() {
@@ -96,5 +94,31 @@ public class Employee {
       monthWorkingInYear = 12;
     }
     return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouseIdNumber.equals(""), childIdNumbers.size());
+  }
+}
+
+public class Child {
+  private String childName;
+  private String childIdNumber;
+
+  public Child(String childName, String childIdNumber) {
+    this.childName = childName;
+    this.childIdNumber = childIdNumber;
+  }
+
+  public String getChildName() {
+    return childName;
+  }
+
+  public void setChildName(String childName) {
+    this.childName = childName;
+  }
+
+  public String getChildIdNumber() {
+    return childIdNumber;
+  }
+
+  public void setChildIdNumber(String childIdNumber) {
+    this.childIdNumber = childIdNumber;
   }
 }
