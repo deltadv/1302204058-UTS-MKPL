@@ -2,6 +2,11 @@ package lib;
 
 public class TaxFunction {
 
+  private static final int TAX_EXEMPTION_SINGLE = 54000000;
+  private static final int TAX_EXEMPTION_MARRIED = 58500000;
+  private static final int TAX_EXEMPTION_CHILD = 1500000;
+  private static final double TAX_RATE = 0.05;
+
   public static class MonthlyIncome {
     private int monthlySalary;
     private int otherMonthlyIncome;
@@ -61,11 +66,12 @@ public class TaxFunction {
     }
 
     boolean isMarried = employeeFamily.getIsMarried();
-    if (isMarried) {
-      tax = (int) Math.round(0.05 * (((monthlyIncome.getMonthlySalary() + monthlyIncome.getOtherMonthlyIncome()) * numberOfMonthWorking) - deductible - (54000000 + 4500000 + (numberOfChildren * 1500000))));
-    } else {
-      tax = (int) Math.round(0.05 * (((monthlyIncome.getMonthlySalary() + monthlyIncome.getOtherMonthlyIncome()) * numberOfMonthWorking) - deductible - 54000000));
+    int taxExemption = isMarried ? TAX_EXEMPTION_MARRIED : TAX_EXEMPTION_SINGLE;
+    if (numberOfChildren > 0) {
+      taxExemption += numberOfChildren * TAX_EXEMPTION_CHILD;
     }
+
+    tax = (int) Math.round(TAX_RATE * (((monthlyIncome.getMonthlySalary() + monthlyIncome.getOtherMonthlyIncome()) * numberOfMonthWorking) - deductible - taxExemption));
 
     if (tax < 0) {
       return 0;
