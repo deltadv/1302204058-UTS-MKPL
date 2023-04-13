@@ -1,10 +1,3 @@
-package lib;
-
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.LinkedList;
-import java.util.List;
-
 public class Employee {
 
   private String employeeId;
@@ -27,6 +20,11 @@ public class Employee {
   private String spouseIdNumber;
 
   private List < Child > children;
+  
+  private static final int GRADE_1_SALARY = 3000000;
+  private static final int GRADE_2_SALARY = 5000000;
+  private static final int GRADE_3_SALARY = 7000000;
+  private static final double FOREIGN_EMPLOYEE_SALARY_INCREASE = 1.5;
 
   public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, LocalDate dateJoined, Nationality nationality, Gender gender) {
     this.employeeId = employeeId;
@@ -48,19 +46,19 @@ public class Employee {
 
   public void setMonthlySalary(int grade) {
     if (grade == 1) {
-      monthlySalary = 3000000;
+      monthlySalary = GRADE_1_SALARY;
       if (nationality == Nationality.FOREIGNER) {
-        monthlySalary = (int)(3000000 * 1.5);
+        monthlySalary = (int)(GRADE_1_SALARY * FOREIGN_EMPLOYEE_SALARY_INCREASE);
       }
     } else if (grade == 2) {
-      monthlySalary = 5000000;
+      monthlySalary = GRADE_2_SALARY;
       if (nationality == Nationality.FOREIGNER) {
-        monthlySalary = (int)(5000000 * 1.5);
+        monthlySalary = (int)(GRADE_2_SALARY * FOREIGN_EMPLOYEE_SALARY_INCREASE);
       }
     } else if (grade == 3) {
-      monthlySalary = 7000000;
+      monthlySalary = GRADE_3_SALARY;
       if (nationality == Nationality.FOREIGNER) {
-        monthlySalary = (int)(7000000 * 1.5);
+        monthlySalary = (int)(GRADE_3_SALARY * FOREIGN_EMPLOYEE_SALARY_INCREASE);
       }
     }
   }
@@ -132,3 +130,4 @@ public class Employee {
       this.childIdNumber = childIdNumber;
     }
   }
+}
