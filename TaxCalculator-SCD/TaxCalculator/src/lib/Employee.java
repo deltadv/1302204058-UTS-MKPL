@@ -84,41 +84,51 @@ public class Employee {
   }
 
   public int getAnnualIncomeTax() {
+    int taxableIncome = calculateTaxableIncome();
+    int dependantDeduction = calculateDependantDeduction();
+    int annualIncomeTax = TaxFunction.calculateTax(taxableIncome, dependantDeduction);
+    return annualIncomeTax;
+  }
 
-    //Menghitung berapa lama pegawai bekerja dalam setahun ini, jika pegawai sudah bekerja dari tahun sebelumnya maka otomatis dianggap 12 bulan.
-    LocalDate currentDate = LocalDate.now();
+  private int calculateTaxableIncome() {
+    int monthlyIncome = monthlySalary + otherMonthlyIncome;
+    int annualIncome = monthlyIncome * 12;
+    int deductibleIncome = annualDeductible * 12;
+    int taxableIncome = annualIncome - deductibleIncome;
+    return taxableIncome;
+  }
 
-    if (currentDate.getYear() == dateJoined.getYear()) {
-      monthWorkingInYear = currentDate.getMonthValue() - dateJoined.getMonthValue();
-    } else {
-      monthWorkingInYear = 12;
+  private int calculateDependantDeduction() {
+    int dependantDeduction = 0;
+    if (spouseIdNumber.equals("")) {
+      dependantDeduction += 4500000;
     }
-    return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouseIdNumber.equals(""), childIdNumbers.size());
-  }
-}
-
-public class Child {
-  private String childName;
-  private String childIdNumber;
-
-  public Child(String childName, String childIdNumber) {
-    this.childName = childName;
-    this.childIdNumber = childIdNumber;
+    dependantDeduction += children.size() * 2000000;
+    return dependantDeduction;
   }
 
-  public String getChildName() {
-    return childName;
-  }
+  public class Child {
+    private String childName;
+    private String childIdNumber;
 
-  public void setChildName(String childName) {
-    this.childName = childName;
-  }
+    public Child(String childName, String childIdNumber) {
+      this.childName = childName;
+      this.childIdNumber = childIdNumber;
+    }
 
-  public String getChildIdNumber() {
-    return childIdNumber;
-  }
+    public String getChildName() {
+      return childName;
+    }
 
-  public void setChildIdNumber(String childIdNumber) {
-    this.childIdNumber = childIdNumber;
+    public void setChildName(String childName) {
+      this.childName = childName;
+    }
+
+    public String getChildIdNumber() {
+      return childIdNumber;
+    }
+
+    public void setChildIdNumber(String childIdNumber) {
+      this.childIdNumber = childIdNumber;
+    }
   }
-}
